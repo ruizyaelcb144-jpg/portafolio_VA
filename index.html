@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lenguaje Natural con Python - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animación de carros en el fondo */
+        .car-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .car {
+            position: absolute;
+            font-size: 3rem;
+            animation: driveCar 8s linear infinite;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        .car:nth-child(1) { top: 15%; animation-delay: 0s; }
+        .car:nth-child(2) { top: 35%; animation-delay: 2s; font-size: 2.5rem; }
+        .car:nth-child(3) { top: 55%; animation-delay: 4s; font-size: 3.5rem; }
+        .car:nth-child(4) { top: 75%; animation-delay: 6s; font-size: 2.8rem; }
+        .car:nth-child(5) { top: 25%; animation-delay: 1s; font-size: 3.2rem; }
+        .car:nth-child(6) { top: 65%; animation-delay: 5s; font-size: 2.6rem; }
+
+        @keyframes driveCar {
+            0% {
+                left: -10%;
+                transform: translateX(0);
+            }
+            100% {
+                left: 110%;
+                transform: translateX(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(45deg, #fff, #00f5ff, #fff, #ff00ff, #fff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite, float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(255,255,255,0.8));
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .author-info {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: 300;
+            opacity: 0.95;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 0.95;
+                transform: translateY(0);
+            }
+        }
+
+        .author-info p {
+            margin: 0.5rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+
+        .catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #ff0040 0%, #ff0080 50%, #ff00bf 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 0, 64, 0.6), 0 0 60px rgba(255, 0, 128, 0.4);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            animation: cardEntry 0.6s ease-out backwards, neonPulse 2s ease-in-out infinite;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+        .card:nth-child(7) { animation-delay: 0.7s; }
+        .card:nth-child(8) { animation-delay: 0.8s; }
+        .card:nth-child(9) { animation-delay: 0.9s; }
+        .card:nth-child(10) { animation-delay: 1s; }
+
+        @keyframes cardEntry {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes neonPulse {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(255, 0, 64, 0.6), 
+                           0 0 60px rgba(255, 0, 128, 0.4),
+                           0 0 90px rgba(255, 0, 191, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 0, 64, 0.8), 
+                           0 0 80px rgba(255, 0, 128, 0.6),
+                           0 0 120px rgba(255, 0, 191, 0.4);
+            }
+        }
+
+        /* Variaciones de rojo fosforescente para diferentes cards */
+        .card:nth-child(2n) {
+            background: linear-gradient(135deg, #ff1744 0%, #f50057 50%, #ff0080 100%);
+        }
+
+        .card:nth-child(3n) {
+            background: linear-gradient(135deg, #ff0066 0%, #ff0099 50%, #ff00cc 100%);
+        }
+
+        .card:nth-child(5n) {
+            background: linear-gradient(135deg, #ff003d 0%, #ff006b 50%, #ff0099 100%);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(45deg);
+            animation: cardShine 3s infinite;
+        }
+
+        @keyframes cardShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card:hover {
+            transform: translateY(-20px) scale(1.08) rotate(3deg);
+            box-shadow: 0 0 50px rgba(255, 0, 64, 1), 
+                       0 0 100px rgba(255, 0, 128, 0.8),
+                       0 0 150px rgba(255, 0, 191, 0.6);
+        }
+
+        .card:hover::before {
+            animation: cardShine 0.8s infinite;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            animation: pulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .card:hover .card-image {
+            animation: spinGlow 1s ease-in-out;
+        }
+
+        @keyframes spinGlow {
+            0% { 
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            }
+            50% { 
+                transform: scale(1.3) rotate(180deg);
+                filter: drop-shadow(0 0 40px rgba(255, 255, 255, 1));
+            }
+            100% { 
+                transform: scale(1) rotate(360deg);
+                filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+            }
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 1;
+            background: rgba(0,0,0,0.8);
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.8);
+        }
+
+        .card-number {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            animation: bounce 2s infinite;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-8px); }
+            75% { transform: translateY(-3px); }
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.5rem 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: #ff0066;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .card a:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 30px rgba(255, 255, 255, 0.8);
+            background: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .catalog {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 3rem 1.5rem;
+            }
+
+            .car {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="car-animation">
+            <div class="car">🚗</div>
+            <div class="car">🚕</div>
+            <div class="car">🚙</div>
+            <div class="car">🏎️</div>
+            <div class="car">🚓</div>
+            <div class="car">🚐</div>
+        </div>
+        <h1>Lenguaje Natural con Python</h1>
+        <div class="author-info">
+            <p><strong>Realizado por:</strong> Yael Ruiz Hernández</p>
+            <p>Especialidad de IA - CBTis 144</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="catalog">
+            <div class="card">
+                <div class="card-image">🔤</div>
+                <div class="card-content">
+                    <span class="card-number">01</span>
+                    <h3 class="card-title">1. Tokenizar</h3>
+                    <a href="tokenizar.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">📏</div>
+                <div class="card-content">
+                    <span class="card-number">02</span>
+                    <h3 class="card-title">2. Longitud de Palabras</h3>
+                    <a href="lpalabras.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🔢</div>
+                <div class="card-content">
+                    <span class="card-number">03</span>
+                    <h3 class="card-title">3. Contar Palabras</h3>
+                    <a href="cpalabras.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">😊</div>
+                <div class="card-content">
+                    <span class="card-number">04</span>
+                    <h3 class="card-title">4. Análisis de Sentimiento</h3>
+                    <a href="analisis.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">✂️</div>
+                <div class="card-content">
+                    <span class="card-number">05</span>
+                    <h3 class="card-title">5. Eliminar Puntuación</h3>
+                    <a href="epuntuacion.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🔍</div>
+                <div class="card-content">
+                    <span class="card-number">06</span>
+                    <h3 class="card-title">6. Preprocesamiento</h3>
+                    <a href="preproceso.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🆖</div>
+                <div class="card-content">
+                    <span class="card-number">07</span>
+                    <h3 class="card-title">7. Traducción</h3>
+                    <a href="traduccion.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🌎</div>
+                <div class="card-content">
+                    <span class="card-number">08</span>
+                    <h3 class="card-title">8. Práctica_traductor</h3>
+                    <a href="p_traductor.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">💻</div>
+                <div class="card-content">
+                    <span class="card-number">09</span>
+                    <h3 class="card-title">9. Librería textblob</h3>
+                    <a href="textblob.html">EXPLORAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image">🆒</div>
+                <div class="card-content">
+                    <span class="card-number">10</span>
+                    <h3 class="card-title">10. Práctica_textblob</h3>
+                    <a href="lib_traductor.html">EXPLORAR</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
